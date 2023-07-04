@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-#### In the another terminal
+### In the another terminal
 
 ```sh
 npm start

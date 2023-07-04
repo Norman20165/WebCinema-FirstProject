@@ -5,6 +5,7 @@ export default {
     data() {
         return {
             film: {},
+            otherFilms: [],
         };
     },
     methods: {
@@ -22,9 +23,53 @@ export default {
                 });
             };
         },
+        async getData() {
+            let response = await axios.get('/films');
+            let data = response.data;
+            let array = [];
+            let index = 0;
+            let res = [];
+
+            for (let i = 0; i < 2; i++) {
+                for (let j of data) {
+                    array.push(j);
+                };
+            };
+
+            for (let i = 0; i < array.length; i++) {
+                if (this.film._id == array[i]._id) {
+                    index = i;
+                    break;
+                };
+            };
+
+            for (let i = 1; i < 7; i++) {
+                res.push(array[i + index]);
+            };
+
+            this.otherFilms = res;
+            console.log(array);
+        },
+        goOtherFilm(item) {
+            this.$router.push({
+                name: 'film',
+                params: {
+                    id: item,
+                },
+            });
+        },
     },
     mounted() {
         this.loadData();
+        this.getData();
+    },
+    watch: {
+        $route(newValue) {
+            if (newValue) {
+                this.loadData();
+                this.getData();
+            };
+        },
     },
 };
 </script>
@@ -60,6 +105,20 @@ export default {
                             <p class="time additional">Время: {{ film.time }} мин.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="block__additional">
+                <div class="block__for__listing">
+                    <a class='link__for__listing' v-for="(item, index) in otherFilms" @click="goOtherFilm(item._id)">
+                        <div class="card__for__listing">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img :src="'../src/' + item.path" alt="" class="card-img-top image__for__listing">
+                                    <h5 class="title__for__listing card-title">{{ item.title }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
