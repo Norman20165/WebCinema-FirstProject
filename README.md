@@ -1,28 +1,29 @@
-# final_project
+# WebCinema - First Project
 
-This template should help get you started developing with Vue 3 in Vite.
+Hello! This is my first project. It has the following features: authorization, viewing the list of films and comments to them.
+In this project I used HTML, CSS, JavaScript, Bootstrap, NodeJS, Vue 3, Express.
 
-## Recommended IDE Setup
+## Cloning the project
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+```sh
+git clone https://github.com/Norman20165/WebCinema-FirstProject.git
+cd WebCinema-FirstProject
+```
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
+### To run the project
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+#### In the another terminal
+
+```sh
+npm start
+```
+
+### To compile
 
 ```sh
 npm run build
