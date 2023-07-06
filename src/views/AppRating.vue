@@ -48,7 +48,6 @@ export default {
             };
 
             this.otherRatings = res;
-            console.log(array);
         },
         goOtherRating(item) {
             this.$router.push({

@@ -48,7 +48,6 @@ export default {
             };
 
             this.otherFilms = res;
-            console.log(array);
         },
         goOtherFilm(item) {
             this.$router.push({

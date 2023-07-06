@@ -22,9 +22,3 @@ npm run dev
 ```sh
 npm start
 ```
-
-### To compile
-
-```sh
-npm run build
-```
