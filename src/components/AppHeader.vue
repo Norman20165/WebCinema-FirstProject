@@ -1,10 +1,12 @@
 <script>
 
 export default {
+    props: ['changeSearch'],
     data() {
         return {
             pic: 0,
             active: 0,
+            search: '',
         };
     },
     methods: {
@@ -41,6 +43,11 @@ export default {
         goSignUp() {
             this.$router.push({
                 name: 'sign_up',
+            });
+        },
+        pushSearch() {
+            this.changeSearch({
+                search: this.search,
             });
         },
     },
@@ -81,7 +88,7 @@ export default {
             </div>
             <div class="header__account col-4">
                 <div class="header__input">
-                    <input type="text" placeholder="Поиск..." class="form-control header__input__for__js">
+                    <input type="text" placeholder="Поиск..." class="form-control header__input__for__js" v-model="search" @input="pushSearch">
                 </div>
                 <div class="header__account__plus">
                     <div class="header__round"><span class="header__round__text">ПЛЮС</span></div>

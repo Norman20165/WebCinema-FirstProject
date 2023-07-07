@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 export default {
+    props: ['search'],
     data() {
         return {
             films: [],
