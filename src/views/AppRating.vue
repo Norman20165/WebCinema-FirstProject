@@ -4,6 +4,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            allRatings: [],
             rating: {},
             otherRatings: [],
         };
@@ -24,14 +25,16 @@ export default {
             };
         },
         async getData() {
-            let response = await axios.get('/ratings');
-            let data = response.data;
+            if (this.allRatings) {
+                let response = await axios.get('/ratings');
+                let data = response.data;
+                this.allRatings = data;
+            };
             let array = [];
             let index = 0;
-            let res = [];
 
             for (let i = 0; i < 2; i++) {
-                for (let j of data) {
+                for (let j of this.allRatings) {
                     array.push(j);
                 };
             };
@@ -42,12 +45,10 @@ export default {
                     break;
                 };
             };
-
+            this.otherRatings = []
             for (let i = 1; i < 7; i++) {
-                res.push(array[i + index]);
+                this.otherRatings.push(array[i + index]);
             };
-
-            this.otherRatings = res;
         },
         goOtherRating(item) {
             this.$router.push({
@@ -63,11 +64,9 @@ export default {
         this.getData();
     },
     watch: {
-        $route(newValue) {
-            if (newValue) {
-                this.loadData();
-                this.getData();
-            };
+        $route() {
+            this.loadData();
+            this.getData();
         },
     },
 };

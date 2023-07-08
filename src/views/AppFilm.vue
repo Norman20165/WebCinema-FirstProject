@@ -4,6 +4,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            allFilms: [],
             film: {},
             otherFilms: [],
         };
@@ -24,14 +25,16 @@ export default {
             };
         },
         async getData() {
-            let response = await axios.get('/films');
-            let data = response.data;
+            if (this.allFilms) {
+                let response = await axios.get('/films');
+                let data = response.data;
+                this.allFilms = data;
+            };
             let array = [];
             let index = 0;
-            let res = [];
 
             for (let i = 0; i < 2; i++) {
-                for (let j of data) {
+                for (let j of this.allFilms) {
                     array.push(j);
                 };
             };
@@ -42,12 +45,10 @@ export default {
                     break;
                 };
             };
-
+            this.otherFilms = [];
             for (let i = 1; i < 7; i++) {
-                res.push(array[i + index]);
+                this.otherFilms.push(array[i + index]);
             };
-
-            this.otherFilms = res;
         },
         goOtherFilm(item) {
             this.$router.push({
@@ -63,11 +64,9 @@ export default {
         this.getData();
     },
     watch: {
-        $route(newValue) {
-            if (newValue) {
-                this.loadData();
-                this.getData();
-            };
+        $route() {
+            this.loadData();
+            this.getData();
         },
     },
 };
