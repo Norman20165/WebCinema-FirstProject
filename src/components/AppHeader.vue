@@ -50,6 +50,18 @@ export default {
                 search: this.search,
             });
         },
+        goProfile() {
+            this.$router.push({
+                name: 'profile',
+            });
+        },
+        goExit() {
+            localStorage.clear();
+            this.$router.push({
+                name: 'main',
+            });
+            this.active = 0;
+        },
     },
     mounted() {
         if (window.location.href.includes('film')) {
@@ -119,10 +131,10 @@ export default {
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item">Профиль</a></li>
+                            <li><a class="dropdown-item" @click="goProfile">Профиль</a></li>
                             <li><a class="dropdown-item">Настройки</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item">Выйти</a></li>
+                            <li><a class="dropdown-item" @click="goExit">Выйти</a></li>
                         </ul>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ export default {
             };
         },
         async getData() {
-            if (this.allRatings) {
+            if (!this.allRatings.length) {
                 let response = await axios.get('/ratings');
                 let data = response.data;
                 this.allRatings = data;
@@ -45,9 +45,9 @@ export default {
                     break;
                 };
             };
-            this.otherRatings = []
+            
             for (let i = 1; i < 7; i++) {
-                this.otherRatings.push(array[i + index]);
+                this.otherRatings[i - 1] = array[i + index];
             };
         },
         goOtherRating(item) {
@@ -58,6 +58,18 @@ export default {
                 },
             });
         },
+        async fixData() {
+            let data = this.$route.params.id;
+            let index = '';
+
+            for (let i = 0; i < this.allRatings.length; i++) {
+                if (data == this.allRatings[i]['_id']) {
+                    index = i;
+                };
+            };
+
+            this.rating = this.allRatings[index];
+        },
     },
     mounted() {
         this.loadData();
@@ -65,7 +77,7 @@ export default {
     },
     watch: {
         $route() {
-            this.loadData();
+            this.fixData();
             this.getData();
         },
     },
@@ -100,7 +112,7 @@ export default {
                             <p class="director additional">Режисер: {{ rating.director }}</p>
                             <p class="budget additional">Бюджет: ${{ rating.budget }}</p>
                             <p class="income additional">Сборы: ${{ rating.income }}</p>
-                            <p class="time additional">Время: {{ rating.time }} мин.</p>
+                            <p class="time additional">Время: {{ rating.filmLength }} мин.</p>
                         </div>
                     </div>
                 </div>

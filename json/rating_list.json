@@ -2,9 +2,6 @@
     {
         "title": "Зелёная миля",
         "englishTitle": "The Green Mile",
-        "titleForLinks": "The Green Mile",
-        "titleForClasses": "the_green_mile",
-        "fileName": "The Green Mile",
         "path": "assets/ratings/green_mile.jpg",
         "year": "1999",
         "filmLength": "189",
@@ -20,9 +17,6 @@
     {
         "title": "Список Шиндлера",
         "englishTitle": "Schindler's List",
-        "titleForLinks": "Schindler",
-        "titleForClasses": "schindlers_list",
-        "fileName": "Schindler",
         "path": "assets/ratings/schindlers_list.jpg",
         "year": "1993",
         "filmLength": "195",
@@ -38,9 +32,6 @@
     {
         "title": "Побег из Шоушенка",
         "englishTitle": "The Shawshank Redemption",
-        "titleForLinks": "The Shawshank Redemption",
-        "titleForClasses": "the_shawshank_redemption",
-        "fileName": "The Shawshank Redemption",
         "path": "assets/ratings/the_shawshank_redemption.webp",
         "year": "1994",
         "filmLength": "142",
@@ -56,9 +47,6 @@
     {
         "title": "Форрест Гамп",
         "englishTitle": "Forrest Gump",
-        "titleForLinks": "Forrest Gump",
-        "titleForClasses": "forrest_gump",
-        "fileName": "Forrest Gump",
         "path": "assets/ratings/forrest_gump.jpg",
         "year": "1994",
         "filmLength": "142",
@@ -74,9 +62,6 @@
     {
         "title": "Тайна Коко",
         "englishTitle": "Coco",
-        "titleForLinks": "Coco",
-        "titleForClasses": "coco",
-        "fileName": "Coco",
         "path": "assets/ratings/coco.jpg",
         "year": "2017",
         "filmLength": "105",
@@ -92,9 +77,6 @@
     {
         "title": "Властелин колец: Возвращение короля",
         "englishTitle": "The Lord of the Rings: The Return of the King",
-        "titleForLinks": "The Lord of the Rings The Return of the King",
-        "titleForClasses": "the_lord_of_the_rings_the_return_of_the_king",
-        "fileName": "The Lord of the Rings The Return of the King",
         "path": "assets/ratings/the_lord_of_the_rings_the_return_of_the_king.jpg",
         "year": "2003",
         "filmLength": "201",
@@ -110,9 +92,6 @@
     {
         "title": "Интерстеллар",
         "englishTitle": "Interstellar",
-        "titleForLinks": "Interstellar",
-        "titleForClasses": "interstellar",
-        "fileName": "Interstellar",
         "path": "assets/ratings/interstellar.jpg",
         "year": "2014",
         "filmLength": "169",
@@ -128,9 +107,6 @@
     {
         "title": "Криминальное чтиво",
         "englishTitle": "Pulp Fiction",
-        "titleForLinks": "Pulp Fiction",
-        "titleForClasses": "pulp_fiction",
-        "fileName": "Pulp Fiction",
         "path": "assets/ratings/pulp_fiction.jpg",
         "year": "1994",
         "filmLength": "154",
@@ -146,9 +122,6 @@
     {
         "title": "Назад в будущее",
         "englishTitle": "Back to the Future",
-        "titleForLinks": "Back to the Future",
-        "titleForClasses": "back_to_the_future",
-        "fileName": "Back to the Future",
         "path": "assets/ratings/back_to_the_future.jpg",
         "year": "1985",
         "filmLength": "116",
@@ -164,9 +137,6 @@
     {
         "title": "Властелин колец: Братство кольца",
         "englishTitle": "The Lord of the Rings: The Fellowship of the Ring",
-        "titleForLinks": "The Lord of the Rings The Fellowship of the Ring",
-        "titleForClasses": "the_lord_of_the_rings_the_fellowship_of_the_ring",
-        "fileName": "The Lord of the Rings The Fellowship of the Ring",
         "path": "assets/ratings/the_lord_of_the_rings_the_fellowship_of_the_ring.jpg",
         "year": "2001",
         "filmLength": "178",
@@ -182,9 +152,6 @@
     {
         "title": "Бойцовский клуб",
         "englishTitle": "Fight Club",
-        "titleForLinks": "Fight Club",
-        "titleForClasses": "fight_club",
-        "fileName": "Fight Club",
         "path": "assets/ratings/fight_club.webp",
         "year": "1999",
         "filmLength": "139",
@@ -200,9 +167,6 @@
     {
         "title": "Король Лев",
         "englishTitle": "The Lion King",
-        "titleForLinks": "The Lion King",
-        "titleForClasses": "the_lion_king",
-        "fileName": "The Lion King",
         "path": "assets/ratings/the_lion_king.webp",
         "year": "1994",
         "filmLength": "88",
@@ -218,9 +182,6 @@
     {
         "title": "Властелин колец: Две крепости",
         "englishTitle": "The Lord of the Rings: The Two Towers",
-        "titleForLinks": "The Lord of the Rings The Two Towers",
-        "titleForClasses": "the_lord_of_the_rings_the_two_towers",
-        "fileName": "The Lord of the Rings The Two Towers",
         "path": "assets/ratings/the_lord_of_the_Rings_the_two_towers.jpg",
         "year": "2002",
         "filmLength": "179",
@@ -236,9 +197,6 @@
     {
         "title": "Унесённые призраками",
         "englishTitle": "Sen to Chihiro no kamikakushi",
-        "titleForLinks": "Sen to Chihiro no kamikakushi",
-        "titleForClasses": "sen_to_chihiro_no_kamikakushi",
-        "fileName": "Sen to Chihiro no kamikakushi",
         "path": "assets/ratings/sen_to_chihiro_no_kamikakushi.jpg",
         "year": "2001",
         "filmLength": "125",
@@ -254,9 +212,6 @@
     {
         "title": "1+1",
         "englishTitle": "Intouchables",
-        "titleForLinks": "Intouchables",
-        "titleForClasses": "intouchables",
-        "fileName": "Intouchables",
         "path": "assets/ratings/1+1.jpg",
         "year": "2011",
         "filmLength": "112",

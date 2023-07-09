@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios';
+import axios, { all } from 'axios';
 
 export default {
     data() {
@@ -17,7 +17,7 @@ export default {
                 },
             });
             this.film = response.data;
-
+            
             if (!this.film) {
                 this.$router.push({
                     name: 'error',
@@ -25,7 +25,7 @@ export default {
             };
         },
         async getData() {
-            if (this.allFilms) {
+            if (!this.allFilms.length) {
                 let response = await axios.get('/films');
                 let data = response.data;
                 this.allFilms = data;
@@ -45,9 +45,9 @@ export default {
                     break;
                 };
             };
-            this.otherFilms = [];
+
             for (let i = 1; i < 7; i++) {
-                this.otherFilms.push(array[i + index]);
+                this.otherFilms[i - 1] = array[i + index];
             };
         },
         goOtherFilm(item) {
@@ -58,6 +58,18 @@ export default {
                 },
             });
         },
+        async fixData() {
+            let data = this.$route.params.id;
+            let index = '';
+
+            for (let i = 0; i < this.allFilms.length; i++) {
+                if (data == this.allFilms[i]['_id']) {
+                    index = i;
+                };
+            };
+
+            this.film = this.allFilms[index];
+        },
     },
     mounted() {
         this.loadData();
@@ -65,7 +77,7 @@ export default {
     },
     watch: {
         $route() {
-            this.loadData();
+            this.fixData();
             this.getData();
         },
     },

@@ -53,5 +53,10 @@ export default createRouter({
             name: 'error',
             component: () => import('./views/AppError.vue'),
         },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import('./views/AppProfile.vue'),
+        },
     ],
 });
