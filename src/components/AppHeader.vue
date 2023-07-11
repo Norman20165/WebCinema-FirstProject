@@ -55,6 +55,11 @@ export default {
                 name: 'profile',
             });
         },
+        goSettings() {
+            this.$router.push({
+                name: 'settings',
+            });
+        },
         goExit() {
             localStorage.clear();
             this.$router.push({
@@ -81,7 +86,13 @@ export default {
     watch: {
         $route(newValue, oldValue) {
             if (oldValue.fullPath == '/sign_up') {
-                this.active = 1;
+                if (localStorage.active == 1) {
+                    this.active = 1;
+                };
+            } else if (oldValue.fullPath == '/sign_in') {
+                if (localStorage.active == 1) {
+                    this.active = 1;
+                };
             };
         },
     },
@@ -116,13 +127,6 @@ export default {
                             <li><a class="dropdown-item" @click="goSignIn">Войти</a></li>
                             <li><a class="dropdown-item" @click="goSignUp">Зарегистрироваться</a></li>
                         </ul>
-
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item">Профиль</a></li>
-                            <li><a class="dropdown-item">Настройки</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item">Выйти</a></li>
-                        </ul>
                     </div>
                     <div class="dropdown" v-else>
                         <a class="d-block link-dark text-decoration-none" data-bs-toggle="dropdown" aria-expanded="false">
@@ -132,7 +136,7 @@ export default {
 
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" @click="goProfile">Профиль</a></li>
-                            <li><a class="dropdown-item">Настройки</a></li>
+                            <li><a class="dropdown-item" @click="goSettings">Настройки</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" @click="goExit">Выйти</a></li>
                         </ul>

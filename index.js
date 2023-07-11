@@ -114,6 +114,11 @@ app.get('/login', async function(req, res) {
     };
 });
 
+app.get('/logins', async function(req, res) {
+    let data = await Account_list.find();
+    res.send(data);
+});
+
 app.post('/create_account', async function(req, res) {
     let login = req.body.login;
     let password = req.body.password;
