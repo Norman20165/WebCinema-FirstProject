@@ -60,6 +60,15 @@ let account_Schema = new mongoose.Schema({
     }, password: {
         type: String,
         required: true,
+    }, firstName: {
+        type: String,
+        required: false,
+    }, lastName: {
+        type: String,
+        required: false,
+    }, sex: {
+        type: String,
+        required: false,
     }, birth: {
         type: String,
         required: false,
@@ -67,6 +76,15 @@ let account_Schema = new mongoose.Schema({
         type: String,
         required: false,
     }, phone: {
+        type: String,
+        required: false,
+    }, city: {
+        type: String,
+        required: false,
+    }, aboutMe: {
+        type: String,
+        required: false,
+    }, hobbies: {
         type: String,
         required: false,
     },
@@ -115,8 +133,23 @@ app.get('/login', async function(req, res) {
 });
 
 app.get('/logins', async function(req, res) {
-    let data = await Account_list.find();
-    res.send(data);
+    let login = req.query.login;
+
+    if (!login) {
+        let data = await Account_list.find();
+        res.send(data);
+    } else {
+        let data = await Account_list.findOne({login: login});
+        res.send(data);
+    };
+});
+
+app.get('/delete_account', async function(req, res) {
+    let id = req.query.id;
+
+    // let data = await Account_list.findOne({_id: id});
+    // data.deleteOne();
+    res.send(true);
 });
 
 app.post('/create_account', async function(req, res) {
@@ -129,9 +162,15 @@ app.post('/create_account', async function(req, res) {
     let newData = new Account_list({
         login: login,
         password: password,
+        firstName: '',
+        lastName: '',
+        sex: 'your__sex',
         birth: birth,
         mail: email,
         phone: phone,
+        city: '',
+        aboutMe: '',
+        hobbies: '',
     });
 
     try {
