@@ -85,14 +85,13 @@ export default {
     },
     watch: {
         $route(newValue, oldValue) {
-            if (oldValue.fullPath == '/sign_up') {
+            if (oldValue.fullPath == '/sign_up' || '/sign_in') {
                 if (localStorage.active == 1) {
                     this.active = 1;
                 };
-            } else if (oldValue.fullPath == '/sign_in') {
-                if (localStorage.active == 1) {
-                    this.active = 1;
-                };
+            };
+            if (oldValue.fullPath == '/settings') {
+                this.active = 0;
             };
         },
     },

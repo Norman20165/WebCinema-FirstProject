@@ -14,6 +14,9 @@ export default {
             city: '',
             aboutMe: '',
             hobbies: '',
+            login: '',
+            isInvalidOldLogin: false,
+            isInvalidNewLogin: false,
         };
     },
     methods: {
@@ -31,8 +34,19 @@ export default {
         },
         async changeData() {},
         async deleteAccount() {
-            await axios.get(`/delete_account?id=${this.data._id}`);
-            console.log('ok');
+            try {
+                await axios.get(`/delete_account?id=${this.data._id}`);
+
+                localStorage.clear()
+
+                this.$router.push({
+                    name: 'main',
+                });
+            } catch (error) {
+                this.$router.push({
+                    name: 'error',
+                });
+            };
         },
         async changeLogin() {},
         async changePassword() {},
@@ -40,6 +54,12 @@ export default {
     },
     mounted() {
         this.loadData();
+
+        if (!Number(localStorage.active)) {
+            this.$router.push({
+                name: 'error',
+            });
+        };
     },
 };
 </script>
@@ -93,7 +113,34 @@ export default {
                                 <button class="btn btn-primary" type="button" @click="deleteAccount">Удалить аккаунт</button>
                             </div>
                             <div class="button__for__changing__login">
-                                <button class="btn btn-primary" type="button" @click="changeLogin">Изменить логин</button>
+                                <button class="btn btn-primary" type="button" @click="changeLogin" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Изменить логин</button>
+                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Изменить логин</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" placeholder="Введите старый логин" :class="{
+                                                        'form-control modal__input mt-4 mb-0': true,
+                                                        'is-invalid': isInvalidOldLogin,
+                                                    }">
+                                                <div class="invalid-feedback">Неверный логин</div>
+                                                <input type="text" placeholder="Введите новый логин" :class="{
+                                                        'form-control modal__input mt-4': true,
+                                                        'is-invalid': isInvalidNewLogin,
+                                                    }">
+                                                <div class="invalid-feedback">Логин не должен совпадать со старым</div>
+                                                <!-- <div class="invalid-feedback">Логин не должен совпадать со старым</div> -->
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                                                <button class="btn btn-primary button__save__login" type="button">Изменить</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="button__for__changing__password">
                                 <button class="btn btn-primary" type="button" @click="changePassword">Изменить пароль</button>
@@ -154,5 +201,13 @@ textarea {
 .btn {
     margin: 10px auto;
     display: block;
+}
+
+.modal-title {
+    margin-right: 20px;
+}
+
+.button__save__login {
+    margin-left: 20px;
 }
 </style>

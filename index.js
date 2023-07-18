@@ -147,8 +147,7 @@ app.get('/logins', async function(req, res) {
 app.get('/delete_account', async function(req, res) {
     let id = req.query.id;
 
-    // let data = await Account_list.findOne({_id: id});
-    // data.deleteOne();
+    await Account_list.deleteOne({_id: id});
     res.send(true);
 });
 
