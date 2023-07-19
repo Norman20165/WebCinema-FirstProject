@@ -4,6 +4,7 @@
 export default {
     data() {
         return {
+            allData: [],
             data: [],
             firstName: '',
             lastName: '',
@@ -16,12 +17,23 @@ export default {
             hobbies: '',
             login: '',
             isInvalidOldLogin: false,
+            oldLogin: '',
             isInvalidNewLogin: false,
+            newLoginError: '',
+            newLogin: '',
+            isDisabledLogin: true,
         };
     },
     methods: {
         async loadData() {
-            this.data = (await axios.get(`/logins?login=${localStorage.login}`)).data;
+            this.allData = (await axios.get('/logins')).data;
+
+            for (let i of this.allData) {
+                if (i.login == localStorage.login) {
+                    this.data = i;
+                    break;
+                };
+            };
             this.firstName = this.data.firstName;
             this.lastName = this.data.lastName;
             this.sex = this.data.sex;
@@ -46,6 +58,45 @@ export default {
                 this.$router.push({
                     name: 'error',
                 });
+            };
+        },
+        checkOldLogin() {
+            if (this.oldLogin != this.data.login && this.oldLogin != '') {
+                this.isInvalidOldLogin = true;
+            } else {
+                this.isInvalidOldLogin = false;
+                if (this.oldLogin != '' && this.newLogin != '') {
+                    this.isDisabledLogin = false;
+                } else {
+                    this.isDisabledLogin = true;
+                };
+            };
+        },
+        checkNewLogin() {
+            if (this.newLogin == this.data.login) {
+                this.newLoginError = 'Логин не должен совпадать со старым';
+                this.isInvalidNewLogin = true;
+                this.isDisabledLogin = true;
+            } else if (this.newLogin.trim() === '' && this.newLogin != '') {
+                this.newLoginError = 'Логин должен быть без пробела';
+                this.isInvalidNewLogin = true;
+                this.isDisabledLogin = true;
+            } else {
+                for (let i of this.allData) {
+                    if (i.login == this.newLogin) {
+                        this.newLoginError = 'Такой логин уже есть у других пользователей';
+                        this.isInvalidNewLogin = true;
+                        this.isDisabledLogin = true;
+                        break;
+                    } else {
+                        this.isInvalidNewLogin = false;
+                        if (this.newLogin != '' && this.oldLogin != '') {
+                            this.isDisabledLogin = false;
+                        } else {
+                            this.isDisabledLogin = true;
+                        };
+                    };
+                };
             };
         },
         async changeLogin() {},
@@ -122,21 +173,26 @@ export default {
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <input type="text" placeholder="Введите старый логин" :class="{
+                                                <div class="old__login">
+                                                    <input type="text" placeholder="Введите старый логин" :class="{
                                                         'form-control modal__input mt-4 mb-0': true,
                                                         'is-invalid': isInvalidOldLogin,
-                                                    }">
-                                                <div class="invalid-feedback">Неверный логин</div>
-                                                <input type="text" placeholder="Введите новый логин" :class="{
-                                                        'form-control modal__input mt-4': true,
+                                                    }" @input="checkOldLogin" v-model="oldLogin">
+                                                    <div class="invalid-feedback">Неверный логин</div>
+                                                </div>
+                                                <div class="new__login">
+                                                    <input type="text" placeholder="Введите новый логин" :class="{
+                                                        'form-control modal__input mt-4 mb-0': true,
                                                         'is-invalid': isInvalidNewLogin,
-                                                    }">
-                                                <div class="invalid-feedback">Логин не должен совпадать со старым</div>
-                                                <!-- <div class="invalid-feedback">Логин не должен совпадать со старым</div> -->
+                                                    }" @input="checkNewLogin" v-model="newLogin">
+                                                    <div class="invalid-feedback" v-if="newLoginError == 'Логин не должен совпадать со старым'">Логин не должен совпадать со старым</div>
+                                                    <div class="invalid-feedback" v-else-if="newLoginError == 'Такой логин уже есть у других пользователей'">Такой логин уже есть у других пользователей</div>
+                                                    <div class="invalid-feedback" v-else-if="newLoginError == 'Логин должен быть без пробела'">Логин должен быть без пробела</div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-                                                <button class="btn btn-primary button__save__login" type="button">Изменить</button>
+                                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Отменить</button>
+                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin">Изменить</button>
                                             </div>
                                         </div>
                                     </div>
