@@ -65,38 +65,49 @@ export default {
                 this.isInvalidOldLogin = true;
             } else {
                 this.isInvalidOldLogin = false;
-                if (this.oldLogin != '' && this.newLogin != '') {
-                    this.isDisabledLogin = false;
-                } else {
-                    this.isDisabledLogin = true;
-                };
             };
+
+            this.checkDisabled();
         },
         checkNewLogin() {
             if (this.newLogin == this.data.login) {
                 this.newLoginError = 'Логин не должен совпадать со старым';
                 this.isInvalidNewLogin = true;
-                this.isDisabledLogin = true;
             } else if (this.newLogin.trim() === '' && this.newLogin != '') {
                 this.newLoginError = 'Логин должен быть без пробела';
                 this.isInvalidNewLogin = true;
-                this.isDisabledLogin = true;
             } else {
                 for (let i of this.allData) {
                     if (i.login == this.newLogin) {
                         this.newLoginError = 'Такой логин уже есть у других пользователей';
                         this.isInvalidNewLogin = true;
-                        this.isDisabledLogin = true;
                         break;
                     } else {
                         this.isInvalidNewLogin = false;
-                        if (this.newLogin != '' && this.oldLogin != '') {
-                            this.isDisabledLogin = false;
-                        } else {
-                            this.isDisabledLogin = true;
-                        };
                     };
                 };
+            };
+
+            this.checkDisabled();
+        },
+        checkDisabled() {
+            if (this.oldLogin != '' && !this.isInvalidOldLogin && this.newLogin != '' && !this.isInvalidNewLogin) {
+                this.isDisabledLogin = false;
+            } else {
+                this.isDisabledLogin = true;
+            };
+        },
+        async saveNewLogin() {
+            try {
+                let response = await axios.get(`/new_login?id=${this.data._id}&login=${this.newLogin}`);
+                
+                if (response) {
+                    localStorage.setItem('login', this.newLogin);
+                };
+            } catch (error) {
+                this.$router.push({
+                    name: 'error',
+                });
             };
         },
         async changeLogin() {},
@@ -192,7 +203,7 @@ export default {
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Отменить</button>
-                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin">Изменить</button>
+                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin" @click="saveNewLogin">Изменить</button>
                                             </div>
                                         </div>
                                     </div>

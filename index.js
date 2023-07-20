@@ -151,6 +151,15 @@ app.get('/delete_account', async function(req, res) {
     res.send(true);
 });
 
+app.get('/new_login', async function(req, res) {
+    let id = req.query.id;
+    let login = req.query.login;
+
+    await Account_list.findOneAndUpdate({_id: id}, {login: login});
+
+    res.send(true);
+});
+
 app.post('/create_account', async function(req, res) {
     let login = req.body.login;
     let password = req.body.password;
