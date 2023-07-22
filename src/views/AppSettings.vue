@@ -4,6 +4,7 @@
 export default {
     data() {
         return {
+            mainButtonDisabled: false,
             allData: [],
             data: [],
             firstName: '',
@@ -110,7 +111,15 @@ export default {
                 });
             };
         },
-        async changeLogin() {},
+        async changeLogin() {
+            this.mainButtonDisabled = true;
+        },
+        closeSaveLogin () {
+            this.mainButtonDisabled = false;
+            this.oldLogin = '';
+            this.newLogin = '';
+            this.isDisabledLogin = true;
+        },
         async changePassword() {},
         async saveSettings() {},
     },
@@ -181,7 +190,7 @@ export default {
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Изменить логин</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="closeSaveLogin"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="old__login">
@@ -202,7 +211,7 @@ export default {
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Отменить</button>
+                                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button" @click="closeSaveLogin">Отменить</button>
                                                 <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin" @click="saveNewLogin">Изменить</button>
                                             </div>
                                         </div>
@@ -213,7 +222,7 @@ export default {
                                 <button class="btn btn-primary" type="button" @click="changePassword">Изменить пароль</button>
                             </div>
                             <div class="button__for__saving">
-                                <button class="btn btn-primary" type="submit" @click="saveSettings">Сохранить изменения</button>
+                                <button class="btn btn-primary" type="submit" @click="saveSettings" :disabled="mainButtonDisabled">Сохранить изменения</button>
                             </div>
                         </div>
                     </div>
