@@ -23,6 +23,12 @@ export default {
             newLoginError: '',
             newLogin: '',
             isDisabledLogin: true,
+            isInvalidOldPassword: false,
+            oldPassword: '',
+            isInvalidNewPassword: false,
+            newPassword: '',
+            newPasswordError: '',
+            isDisabledPassword: true,
         };
     },
     methods: {
@@ -68,7 +74,7 @@ export default {
                 this.isInvalidOldLogin = false;
             };
 
-            this.checkDisabled();
+            this.checkDisabled('login');
         },
         checkNewLogin() {
             if (this.newLogin == this.data.login) {
@@ -89,13 +95,21 @@ export default {
                 };
             };
 
-            this.checkDisabled();
+            this.checkDisabled('login');
         },
-        checkDisabled() {
-            if (this.oldLogin != '' && !this.isInvalidOldLogin && this.newLogin != '' && !this.isInvalidNewLogin) {
-                this.isDisabledLogin = false;
+        checkDisabled(what) {
+            if (what == 'login') {
+                if (this.oldLogin != '' && !this.isInvalidOldLogin && this.newLogin != '' && !this.isInvalidNewLogin) {
+                    this.isDisabledLogin = false;
+                } else {
+                    this.isDisabledLogin = true;
+                };
             } else {
-                this.isDisabledLogin = true;
+                if (this.oldPassword != '' && !this.isInvalidOldPassword && this.newPassword != '' && !this.isInvalidNewPassword) {
+                    this.isDisabledPassword = false;
+                } else {
+                    this.isDisabledPassword = true;
+                };
             };
         },
         async saveNewLogin() {
@@ -105,6 +119,12 @@ export default {
                 if (response) {
                     localStorage.setItem('login', this.newLogin);
                 };
+
+                this.mainButtonDisabled = false;
+
+                this.data.login = this.newLogin;
+                this.oldLogin = '';
+                this.newLogin = '';
             } catch (error) {
                 this.$router.push({
                     name: 'error',
@@ -120,7 +140,39 @@ export default {
             this.newLogin = '';
             this.isDisabledLogin = true;
         },
-        async changePassword() {},
+        async changePassword() {
+            this.mainButtonDisabled = true;
+        },
+        closeSavePassword() {
+            this.mainButtonDisabled = false;
+            this.oldPassword = '';
+            this.newPassword = '';
+            this.isDisabledPassword = true;
+        },
+        checkOldPassword() {
+            if (this.oldPassword != this.data.password && this.oldPassword != '') {
+                this.isInvalidOldPassword = true;
+            } else {
+                this.isInvalidOldPassword = false;
+            };
+
+            this.checkDisabled();
+        },
+        checkNewPassword() {
+            if (this.newPassword == this.data.password) {
+                this.isInvalidNewPassword = true;
+                this.newPasswordError = 'Пароль не должен совпадать со старым';
+            } else if (this.newPassword.trim() === '' && this.newPassword != '') {
+                this.isInvalidNewPassword = true;
+                this.newPasswordError = 'Пароль должен быть без пробела';
+            } else {
+                this.isInvalidNewPassword = false;
+                this.newPasswordError = '';
+            };
+
+            this.checkDisabled();
+        },
+        saveNewPassword() {},
         async saveSettings() {},
     },
     mounted() {
@@ -212,14 +264,45 @@ export default {
                                             </div>
                                             <div class="modal-footer">
                                                 <button class="btn btn-secondary" data-bs-dismiss="modal" type="button" @click="closeSaveLogin">Отменить</button>
-                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin" @click="saveNewLogin">Изменить</button>
+                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledLogin" @click="saveNewLogin" data-bs-dismiss="modal">Изменить</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="button__for__changing__password">
-                                <button class="btn btn-primary" type="button" @click="changePassword">Изменить пароль</button>
+                                <button class="btn btn-primary" type="button" @click="changePassword" data-bs-toggle="modal" data-bs-target="#staticBackdropp">Изменить пароль</button>
+                                <div class="modal fade" id="staticBackdropp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Изменить пароль</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="closeSavePassword"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="old__password">
+                                                    <input type="password" placeholder="Введите старый пароль" :class="{
+                                                        'form-control modal__input mt-4 mb-0': true,
+                                                        'is-invalid': isInvalidOldPassword,
+                                                    }" @input="checkOldPassword" v-model="oldPassword">
+                                                    <div class="invalid-feedback">Неверный пароль</div>
+                                                </div>
+                                                <div class="new__password">
+                                                    <input type="password" placeholder="Введите новый пароль" :class="{
+                                                        'form-control modal__input mt-4 mb-0': true,
+                                                        'is-invalid': isInvalidNewPassword,
+                                                    }" @input="checkNewPassword" v-model="newPassword">
+                                                    <div class="invalid-feedback" v-if="newPasswordError == 'Пароль не должен совпадать со старым'">Пароль не должен совпадать со старым</div>
+                                                    <div class="invalid-feedback" v-else-if="newPasswordError == 'Пароль должен быть без пробела'">Пароль должен быть без пробела</div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button" @click="closeSavePassword">Отменить</button>
+                                                <button class="btn btn-primary button__save__login" type="button" :disabled="isDisabledPassword" @click="saveNewPassword" data-bs-dismiss="modal">Изменить</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="button__for__saving">
                                 <button class="btn btn-primary" type="submit" @click="saveSettings" :disabled="mainButtonDisabled">Сохранить изменения</button>

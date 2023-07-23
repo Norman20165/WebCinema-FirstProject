@@ -90,9 +90,9 @@ export default {
                     this.active = 1;
                 };
             };
-            if (oldValue.fullPath == '/settings') {
-                this.active = 0;
-            };
+            // if (oldValue.fullPath == '/settings') {
+            //     this.active = 0;
+            // };
         },
     },
 };
