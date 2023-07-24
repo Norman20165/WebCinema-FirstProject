@@ -160,6 +160,40 @@ app.get('/new_login', async function(req, res) {
     res.send(true);
 });
 
+app.get('/new_password', async function(req, res) {
+    let id = req.query.id;
+    let password = req.query.password;
+
+    await Account_list.findOneAndUpdate({_id: id}, {password: password});
+
+    res.send(true);
+});
+
+app.get('/change_data', async function(req, res) {
+    let firstName = req.query.firstName;
+    let lastName = req.query.lastName;
+    let sex = req.query.sex;
+    let birth = req.query.birth;
+    let phone = req.query.phone;
+    let email = req.query.email;
+    let city = req.query.city;
+    let aboutMe = req.query.aboutMe;
+    let hobbies = req.query.hobbies;
+
+    await Account_list.findOneAndUpdate({_id: id}, {
+        firstName: firstName,
+        lastName: lastName,
+        sex: sex,
+        mail: email,
+        phone: phone,
+        city: city,
+        aboutMe: aboutMe,
+        hobbies: hobbies,
+    });
+
+    res.send(true);
+});
+
 app.post('/create_account', async function(req, res) {
     let login = req.body.login;
     let password = req.body.password;

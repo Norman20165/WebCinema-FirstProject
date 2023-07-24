@@ -1,5 +1,5 @@
 <script>
- import axios from 'axios';
+import axios from 'axios';
 
 export default {
     data() {
@@ -51,7 +51,27 @@ export default {
             this.aboutMe = this.data.aboutMe;
             this.hobbies = this.data.hobbies;
         },
-        async changeData() {},
+        async changeData(event) {
+            event.preventDefault();
+
+            try {
+                let response = await axios.get(`/change_data?firstName=${this.firstName}&lastName=${this.lastName}&sex=${this.sex}&birth=${this.birth}&phone=${this.phone}&email=${this.email}&city=${this.city}&aboutMe=${this.aboutMe}&hobbies=${this.hobbies}`);
+
+                if (response) {
+                    this.$router.push({
+                        name: 'main',
+                    });
+                } else {
+                    this.$router.push({
+                        name: 'error',
+                    });
+                };
+            } catch (error) {
+                this.$router.push({
+                    name: 'error',
+                });
+            };
+        },
         async deleteAccount() {
             try {
                 await axios.get(`/delete_account?id=${this.data._id}`);
@@ -165,6 +185,26 @@ export default {
             } else if (this.newPassword.trim() === '' && this.newPassword != '') {
                 this.isInvalidNewPassword = true;
                 this.newPasswordError = 'Пароль должен быть без пробела';
+            } else if (this.newPassword.length < 5 && this.newPassword != '') {
+                this.isInvalidNewPassword = true;
+                this.newPasswordError = 'Пароль должен быть не менее 5 символов';
+            } else {
+                this.isInvalidNewPassword = false;
+                this.newPasswordError = '';
+            }; 
+            if (this.newPassword.length > 30) {
+                this.isInvalidNewPassword = true;
+                this.newPasswordError = 'Пароль должен быть не более 30 символов';
+            } else if (this.newPassword) {
+                let list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+                for (let i of this.newPassword) {
+                    if (!(list.includes(i))) {
+                        this.isInvalidNewPassword = true;
+                        this.newPasswordError = 'Пароль может состоять из латинских букв или цифер';
+                        break;
+                    };
+                };
             } else {
                 this.isInvalidNewPassword = false;
                 this.newPasswordError = '';
@@ -172,7 +212,21 @@ export default {
 
             this.checkDisabled();
         },
-        saveNewPassword() {},
+        async saveNewPassword() {
+            try {
+                let response = await axios.get(`/new_password?id=${this.data._id}&password=${this.newPassword}`);
+
+                this.mainButtonDisabled = false;
+
+                this.data.password = this.newPassword;
+                this.oldPassword = '';
+                this.newPassword = '';
+            } catch (error) {
+                this.$router.push({
+                    name: 'error',
+                });
+            };
+        },
         async saveSettings() {},
     },
     mounted() {
@@ -294,6 +348,9 @@ export default {
                                                     }" @input="checkNewPassword" v-model="newPassword">
                                                     <div class="invalid-feedback" v-if="newPasswordError == 'Пароль не должен совпадать со старым'">Пароль не должен совпадать со старым</div>
                                                     <div class="invalid-feedback" v-else-if="newPasswordError == 'Пароль должен быть без пробела'">Пароль должен быть без пробела</div>
+                                                    <div class="invalid-feedback" v-else-if="newPasswordError == 'Пароль должен быть не менее 5 символов'">Пароль должен быть не менее 5 символов</div>
+                                                    <div class="invalid-feedback" v-else-if="newPasswordError == 'Пароль должен быть не более 30 символов'">Пароль должен быть не более 30 символов</div>
+                                                    <div class="invalid-feedback" v-else-if="newPasswordError == 'Пароль может состоять из латинских букв или цифер'">Пароль может состоять из латинских букв или цифер</div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
