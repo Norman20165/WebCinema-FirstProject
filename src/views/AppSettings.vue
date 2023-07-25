@@ -29,6 +29,7 @@ export default {
             newPassword: '',
             newPasswordError: '',
             isDisabledPassword: true,
+            imageBase64: '',
         };
     },
     methods: {
@@ -55,7 +56,7 @@ export default {
             event.preventDefault();
 
             try {
-                let response = await axios.get(`/change_data?firstName=${this.firstName}&lastName=${this.lastName}&sex=${this.sex}&birth=${this.birth}&phone=${this.phone}&email=${this.email}&city=${this.city}&aboutMe=${this.aboutMe}&hobbies=${this.hobbies}`);
+                let response = await axios.get(`/change_data?id=${this.data._id}&firstName=${this.firstName}&lastName=${this.lastName}&sex=${this.sex}&birth=${this.birth}&phone=${this.phone}&email=${this.email}&city=${this.city}&aboutMe=${this.aboutMe}&hobbies=${this.hobbies}`);
 
                 if (response) {
                     this.$router.push({
@@ -228,6 +229,24 @@ export default {
             };
         },
         async saveSettings() {},
+        async onFileChange(event) {
+            let file = event.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async function() {
+                try {
+                    let response = await axios.post(`/avatar?image=${reader.result}`, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+
+                    console.log(response);
+                } catch (error) {
+                    console.log(false);
+                };
+            };
+        },
     },
     mounted() {
         this.loadData();
@@ -251,7 +270,7 @@ export default {
                 <div class="row">
                     <div class="col-3">
                         <img src="src/assets/empty/empty.webp" alt="">
-                        <input type="file" class="mt-2 form-control input__file">
+                        <input type="file" class="mt-2 form-control input__file" ref="file" @change="onFileChange">
                     </div>
                     <div class="col">
                         <div class="block__for__first__name">

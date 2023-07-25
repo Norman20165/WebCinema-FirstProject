@@ -169,7 +169,14 @@ app.get('/new_password', async function(req, res) {
     res.send(true);
 });
 
+app.post('/avatar', async function(req, res) {
+    let data = req.query.image;
+
+    res.send(true);
+});
+
 app.get('/change_data', async function(req, res) {
+    let id = req.query.id;
     let firstName = req.query.firstName;
     let lastName = req.query.lastName;
     let sex = req.query.sex;
@@ -184,6 +191,7 @@ app.get('/change_data', async function(req, res) {
         firstName: firstName,
         lastName: lastName,
         sex: sex,
+        birth: birth,
         mail: email,
         phone: phone,
         city: city,
@@ -197,7 +205,7 @@ app.get('/change_data', async function(req, res) {
 app.post('/create_account', async function(req, res) {
     let login = req.body.login;
     let password = req.body.password;
-    let birth = req.body.date;
+    let birth = req.body.birth;
     let email = req.body.email;
     let phone = req.body.phone;
 
